@@ -73,14 +73,25 @@ int main(void) {
 	return 0;
 }
 
+typedef enum {
+	MENU_UNDEFINED = 0,
+	MENU_REHEAT = 1,
+	MENU_MAKECOFFEE,
+	MENU_SHUTDOWN
+} MenuItem;
+
+
+
 void ShowMenu(void ){
-	int menuSelected = 0;
+	MenuItem menuSelected = MENU_UNDEFINED;
+	int menuInput = 0;
 	printf("Select from the following Options:\n");
 	printf("1:  Re-heat\n");
 	printf("2:  Make Coffee\n");
 	printf("9: shutdown\n");
 	// blocking read!!
-	scanf("%d", &menuSelected);
+	scanf("%d", &menuInput);
+	menuSelected = (MenuItem)menuInput;
 	switch(menuSelected)
 	{
 		case 1:
