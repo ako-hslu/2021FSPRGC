@@ -1,19 +1,23 @@
 #include <stdio.h>
 #include <unistd.h>
 
+// State Machine 
 typedef enum {
 	HEATING = 1,
-	READY,
+	SHOWMENU,
 	MILLING,
 	COFFEEMAKING,
-	CLEARING,
+	CLEANING,
 	SHUTDOWN,
 	ERROR
 } CoffeeMakerStatus;
-cd 
+
+
 CoffeeMakerStatus status = HEATING;
 	
-int HeatingDone(void);
+// function prototypes
+void ShowMenu( void );
+int HeatingDone( void );
 
 
 int main(void) {
@@ -22,16 +26,34 @@ int main(void) {
 	int run = 1;
 	while(run == 1) 
 	{
-		
+		//CheckSensors();
 		switch(status)
 		{
 			case HEATING:
 				if( HeatingDone() )
 				{
-					status = SHUTDOWN;
+					status = SHOWMENU;
 				}
 				break;
+				
+			case SHOWMENU:
+				ShowMenu();
+				break;
 		
+			case MILLING:
+				printf("milling ... done.\n");
+				status = COFFEEMAKING;
+				break;
+				
+			case COFFEEMAKING:
+				printf("mmmmh... smells good! Done.\n");
+				status = CLEANING;
+				break;
+			
+			case CLEANING:
+				printf("cleaning.... done.\n");
+				status = SHOWMENU;
+				break;
 		
 			// add all cases
 		
@@ -51,18 +73,64 @@ int main(void) {
 	return 0;
 }
 
+void ShowMenu(void ){
+	int menuSelected = 0;
+	printf("Select from the following Options:\n");
+	printf("1:  Re-heat\n");
+	printf("2:  Make Coffee\n");
+	printf("9: shutdown\n");
+	// blocking read!!
+	scanf("%d", &menuSelected);
+	switch(menuSelected)
+	{
+		case 1:
+			status = HEATING;
+			break;
+		case 2:
+			status = MILLING;
+			break;
+		
+		case 9:
+			status = SHUTDOWN;
+			break;
+	
+		default:
+			printf("Invalid selection.\n");
+			status = SHOWMENU;
+			break;
+	}
+	/*
+	if( menuSelected == 1 ){
+		status = HEATING;
+	} else if( menuSelected == 2 ) {
+		status = MILLING;
+	} else if( menuSelected == 9 ) {
+		status = SHUTDOWN;
+	} else {
+		printf("Invalid selection.\n");
+		status = SHOWMENU;
+	}
+	*/
+}	
+
+
+
 
 static int heatingCounter = 0;
-int heatingLimit = 6;
+int heatingLimit = 10;
 
+// returns 1 if heating done, 0 otherwise.
 int HeatingDone(void){
 	int done = 0;
-	sleep(1);
+	//sleep(1);  // sleep for 1 s.
+ 	usleep(500000);  // sleep n microsecond
 	printf("#");
 	fflush(stdout);
 	heatingCounter++;
 	if(heatingCounter >= heatingLimit)
 	{
+		// reset the counter!! 
+		heatingCounter = 0;
 		done = 1;
 		printf(" Heating Completed.\n");
 	}
