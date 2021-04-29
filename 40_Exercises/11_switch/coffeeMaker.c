@@ -10,7 +10,7 @@ typedef enum {
 	SHUTDOWN,
 	ERROR
 } CoffeeMakerStatus;
-
+cd 
 CoffeeMakerStatus status = HEATING;
 	
 int HeatingDone(void);
