@@ -26,6 +26,24 @@ int main(void) {
 	int run = 1;
 	while(run == 1) 
 	{
+		if( status == HEATING ){
+			if( HeatingDone() )
+			{
+				status = SHOWMENU;
+			}
+		} else if (status == SHOWMENU) {
+			ShowMenu();
+		} else if ()
+		
+		
+	...
+	
+		} else  //default!! 
+		{
+		}
+		
+	
+		/*
 		//CheckSensors();
 		switch(status)
 		{
@@ -68,10 +86,14 @@ int main(void) {
 				status = SHUTDOWN;
 				break;
 		}
+		*/
 	}
 
 	return 0;
 }
+
+
+
 
 typedef enum {
 	MENU_UNDEFINED = 0,
@@ -110,18 +132,6 @@ void ShowMenu(void ){
 			status = SHOWMENU;
 			break;
 	}
-	/*
-	if( menuSelected == 1 ){
-		status = HEATING;
-	} else if( menuSelected == 2 ) {
-		status = MILLING;
-	} else if( menuSelected == 9 ) {
-		status = SHUTDOWN;
-	} else {
-		printf("Invalid selection.\n");
-		status = SHOWMENU;
-	}
-	*/
 }	
 
 

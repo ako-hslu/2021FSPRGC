@@ -1,19 +1,10 @@
+// <> suche auf dem Systempfad
 #include <stdio.h>
 
-struct Point2d {
-	double x;
-	double y;
-};
+// "" suche lokal
+#include "rectangle.h"
 
 
-struct Rectangle {
-	struct Point2d bottomLeftCorner;
-	struct Point2d topRightCorner;
-	double area;
-	double perimeter;
-};
-
-double ComputeRectangleArea(struct Rectangle *pRect);
 
 struct Rectangle myRectangle;
 
@@ -27,15 +18,20 @@ int main(){
 	myRectangle.topRightCorner.y = 35.0;
 
 	pRectangle->area = ComputeRectangleArea(&myRectangle);
+	//pRectangle->area = ComputeRectangleArea(pRectangle);
 	
-	printf("Area: %.2f\n", pRectangle->area);
+	printf("Area (arrow): %.2f\n", pRectangle->area);
+	printf("Area (indirection): %.2f\n",(*pRectangle).area);
 	return 0;
 }
 
 
+	
+// implementation
 double ComputeRectangleArea(struct Rectangle *pRect){
 	double deltaX = (pRect->topRightCorner.x - pRect->bottomLeftCorner.x);
 	double deltaY = (pRect->topRightCorner.y - pRect->bottomLeftCorner.y);
 	return deltaX*deltaY;
 }
-	
+
+

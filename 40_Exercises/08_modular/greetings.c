@@ -6,13 +6,6 @@
 #include "greetings.h"
 
 
-struct Prof {
-	char name[12];
-	int salary;
-}
-
-
-
 /* globale variable: declaration + init */
 int greetingsCounter = 0;
 
